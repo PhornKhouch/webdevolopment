@@ -4,7 +4,8 @@
     session_start();
     $_baseURL='';
 
-    if($_POST['btnSave']){
+    if($_POST['btnUpdate']){
+        $id=$_POST['txtID'];
         $title=$_POST['txtTitle'];
         $SubTitle= $_POST['txtSubtitle'];
         $Cate=$_POST['txtCategroy'];
@@ -17,21 +18,17 @@
         $tmp_name=$_FILES['photo']['tmp_name'];
         $folder='../../Upload/NewHomepage/';
         move_uploaded_file($tmp_name,$folder.$img_name);
-        $Insert="INSERT INTO `tbl_contenthomepage` (`id`, `title`, `SubTitle`, `MenuID`, `Inorder`, `status`, `photo`, `postdate`) 
-        VALUES (NULL, '$title', '$SubTitle', '$Cate', '$Inorder', '$status', '$img_name', '$Postdate');";
+        $Insert="UPDATE `tbl_contenthomepage` SET 
+        `title` = '$title', 
+        `SubTitle` = '$SubTitle', 
+        `MenuID` = '$Cate', 
+        `Inorder` = '$Inorder', 
+        `status` = '$status', 
+        `postdate` = '$Postdate' 
+        WHERE `tbl_contenthomepage`.`id` = 'txtID';";
         $rs=$con->query($Insert);
         if($rs){
-            $_SESSION['msg']='Insert success fully';
-            $_baseURL='../../view/NewsHomepage/index.php';
-        }
-    }
-
-    if($_GET['action']=="Delete"){
-        $ID=$_GET['id'];
-        $DELETE="DELETE FROM tbl_contenthomepage WHERE id='$ID'";
-        $res=$con->query($DELETE);
-        if($rs){
-            $_SESSION['msg']='Delete success fully';
+            $_SESSION['msg']='Updated success fully';
             $_baseURL='../../view/NewsHomepage/index.php';
         }
     }

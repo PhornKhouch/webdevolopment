@@ -1,28 +1,56 @@
 <?php
 include '../../connection/conect.php';
 include '../../root/Header.php';
+
+if(isset($_GET['id'])!=null){
+    $id=$_GET['id'];
+    $select="SELECT * FROM tbl_contenthomepage WHERE id=' $id'";
+    $res=$con->query($select);
+    $Row=$res->fetch_assoc();
+    $Title=$Row['title'];
+    $SubTitle=$Row['SubTitle'];
+    $category=$Row['MenuID'];
+    $Inorder=$Row['Inorder'];
+    $status=$Row['status'];
+    $postdate=$Row['postdate'];
+    $photo=$Row['photo'];
+    if($photo=="" || $photo==null)
+    {
+        $photo_='https://w7.pngwing.com/pngs/469/94/png-transparent-camera-logo-graphy-camera-text-camera-lens-rectangle-thumbnail.png';
+    }
+    else{
+        
+        $photo_='../../Upload/NewHomepage/'.$photo;
+    }
+
+}
 ?>
 </head>
 
 <body>
     <div class="container-fluid  mt-4 mx-4">
-        <form action="../../model/NewsHomepage/actionCreate.php" method="post" enctype="multipart/form-data">
+        <form action="../../model/NewsHomepage/actionEdit.php" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-lg-12 bg-secondary p-2">
                     <a href="index.php" class="btn btn-success"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
-                    <input type="submit" value="Save" name="btnSave" class="btn btn-success">
+                    <input type="submit" value="Update" name="btnUpdate" class="btn btn-success">
+                </div>
+                <div class="col-lg-4" hidden>
+                    <label for="">ID</label>
+                    <input type="text" hidden name="txtID" class="form-control" value="<?php echo $id?>">
                 </div>
                 <div class="col-lg-4">
                     <label for="">Title</label>
-                    <input type="text" name="txtTitle" class="form-control">
+                    <input type="text" name="txtTitle" class="form-control" value="<?php echo $Title?>">
                 </div>
                 <div class="col-lg-4">
                     <label for="">Subtitle</label>
-                    <input type="text" name="txtSubtitle" class="form-control">
+                    <input type="text" name="txtSubtitle" class="form-control" value="<?php echo $SubTitle?>">
                 </div>
                 <div class="col-lg-4">
                     <label for="">Category</label>
                     <select name="txtCategroy" id="" class="form-control">
+                        <option value="" selected><?php echo $category?></option>
                         <?php
                         $SELECT = "SELECT * FROM tbl_menu Where Status='Active'";
                         $result = $con->query($SELECT);
@@ -38,7 +66,7 @@ include '../../root/Header.php';
                 </div>
                 <div class="col-lg-4">
                     <label for="">Inorder</label>
-                    <input type="text" name="txtInorder" class="form-control">
+                    <input type="text" name="txtInorder" class="form-control" value="<?php echo $Inorder?>">
                 </div>
                 <div class="col-lg-4">
                     <label for="">PostDate</label>
@@ -47,6 +75,7 @@ include '../../root/Header.php';
                 <div class="col-lg-4">
                     <label for="">Status</label>
                     <select name="txtStatus" class="form-control">
+                        <option value="Active" selected><?php echo $status?></option>
                         <option value="Active">Active</option>
                         <option value="InActive">InActive</option>
                     </select>
@@ -59,7 +88,7 @@ include '../../root/Header.php';
 
                 </div>
                 <div class="col-xl-4 mt-4">
-                    <img src="https://w7.pngwing.com/pngs/469/94/png-transparent-camera-logo-graphy-camera-text-camera-lens-rectangle-thumbnail.png" alt="" width="100%" id="previewIMG">
+                    <img src="<?php echo $photo_?>" alt="" width="100%" id="previewIMG">
                 </div>
             </div>
         </form>

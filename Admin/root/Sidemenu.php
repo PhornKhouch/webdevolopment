@@ -41,7 +41,7 @@
                     </li>
                    
                     <li>
-                        <a href="../Cart/index.php" target="content">News Details</a>
+                        <a href="../view/DetailNews/index.php" target="content">News Details</a>
                     </li>
                 </ul>
             </li>
